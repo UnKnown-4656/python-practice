@@ -26,20 +26,37 @@ class BankAccount:
            print(i)
 
 class SavingsAccount(BankAccount):
-    def __init__(self,intrest):
+    def __init__(self,interest=5):
         super().__init__()
-        self.intrest_rate=intrest
+        self.interest_rate=interest
 
 
-    def apply_intreset(self):
-        clac_intrest=self.balance*self.intrest_rate/100
-        self.balance+=clac_intrest
+    def apply_interest(self):
+        clac_interest=self.balance*self.interest_rate/100
+        self.balance+=clac_interest
+        self.transactions.append((f"apply {clac_interest} on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"))
 
+
+class CurrentAccount(BankAccount):
+    def __init__(self,OverDraft=1000):
+        super().__init__()
+        self.OverDraft=OverDraft
+    def withdraw(self,amount):
+        if amount>self.OverDraft+self.balance:
+            print("Insufficient funds")
+        else:
+          self.balance -= amount
+          self.transactions.append((f"withdraw {amount} on {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"))
 
 
 
 #b=BankAccount()
-c=SavingsAccount(5)
-c.deposit(1000)
-c.apply_intreset()
-c.show_balance()
+#c=SavingsAccount(5)
+#c.deposit(1000)
+#c.apply_interest()
+#c.show_balance()
+d=CurrentAccount()
+d.deposit(2000)
+d.withdraw(1000)
+d.withdraw(2500)
+d.show_balance()
